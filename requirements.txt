@@ -2,4 +2,8 @@ pandas
 numpy 
 keras
 matplotlib
+<<<<<<< HEAD
 Pillow
+=======
+opencv-python
+>>>>>>> 4934784 (added new libraries to requirements)
