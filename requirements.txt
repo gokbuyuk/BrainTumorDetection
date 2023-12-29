@@ -2,3 +2,4 @@ pandas
 numpy 
 keras
 matplotlib
+Pillow
