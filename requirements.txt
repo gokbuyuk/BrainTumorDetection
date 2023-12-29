@@ -5,3 +5,4 @@ matplotlib
 Pillow
 opencv-python #cv2
 seaborn
+scikit-image
