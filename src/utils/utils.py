@@ -1,8 +1,7 @@
 import os
 import cv2
 import numpy as np
-from icecream import ic
-import matplotlib.pyplot as plt
+# from icecream import ic
 
 
 def crop_black_frame(image_path):
@@ -22,8 +21,6 @@ def crop_black_frame(image_path):
     cropped_image = image[y:y+h, x:x+w]
     return cropped_image
 
-import cv2
-import os
 
 def crop_black_frame_in_directory(input_directory, output_directory):
     """
@@ -81,3 +78,12 @@ def downsample_images(input_directory, output_directory, target_size=(100, 100))
                     cv2.imwrite(save_path, resized_image)
                 else:
                     print(f"Failed to read image: {image_path}")
+
+if __name__ == '__main__':
+
+    # Replace with your actual paths
+    INPUT_TRAIN_PATH = 'data/raw/Training'
+    INPUT_TEST_PATH = 'data/raw/Testing'
+    crop_black_frame_in_directory(INPUT_TRAIN_PATH, INPUT_TRAIN_PATH.replace('raw', 'interim/cropped'))
+
+    downsample_images('data/interim/cropped', 'data/interim/resized')
