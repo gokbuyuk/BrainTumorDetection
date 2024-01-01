@@ -45,11 +45,6 @@ def crop_black_frame_in_directory(input_directory, output_directory):
                     output_image_path = os.path.join(output_subdir, file)
                     cv2.imwrite(output_image_path, cropped_image)
 
-# Example usage
-# Define your cropping function, e.g., crop_black_frame
-# process_images('path/to/input/directory', 'path/to/output/directory', crop_black_frame)
-
-
 
 def downsample_images(input_directory, output_directory, target_size=(100, 100)):
     """
@@ -80,10 +75,6 @@ def downsample_images(input_directory, output_directory, target_size=(100, 100))
                     print(f"Failed to read image: {image_path}")
 
 if __name__ == '__main__':
-
-    # Replace with your actual paths
-    INPUT_TRAIN_PATH = 'data/raw/Training'
-    INPUT_TEST_PATH = 'data/raw/Testing'
-    crop_black_frame_in_directory(INPUT_TRAIN_PATH, INPUT_TRAIN_PATH.replace('raw', 'interim/cropped'))
-
+    INPUT_PATH = 'data/raw'
+    crop_black_frame_in_directory(INPUT_PATH, INPUT_PATH.replace('raw', 'interim/cropped'))
     downsample_images('data/interim/cropped', 'data/interim/resized')
