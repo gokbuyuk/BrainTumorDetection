@@ -1,76 +1,74 @@
 import os
 import cv2
 import numpy as np
-
-# Paths to the datasets and outputs
-# Directory to save the images
-IMAGE_DIR = "../reports/visualizations"
-os.makedirs(IMAGE_DIR, exist_ok=True)  # Create the directory if it doesn't exist
-
-# Paths to the datasets
-INPUT_TRAIN_PATH = ('../data/raw/Training')
-INPUT_TEST_PATH = ('../data/raw/Testing')
-
-OUTPUT_TRAIN_PATH = ('../data/interim/Training')
-OUTPUT_TEST_PATH = ('../data/interim/Testing')
-
-# Create output directories if they don't exist
-os.makedirs(OUTPUT_TRAIN_PATH, exist_ok=True)
-os.makedirs(OUTPUT_TEST_PATH, exist_ok=True)
+from icecream import ic
+import matplotlib.pyplot as plt
 
 
 def crop_brain_contour(image_path):
-    # Read the image
     image = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)
-    
-    # Check if image is loaded properly
     if image is None:
-        print(f"Error: Image not found at {image_path}")
+        print(f"Failed to read image: {image_path}")
         return None
 
-    # Apply a binary threshold to the image
     _, thresh = cv2.threshold(image, 1, 255, cv2.THRESH_BINARY)
-
-    # Find contours from the thresholded image
     contours, _ = cv2.findContours(thresh, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
-
-    # If no contours are found, return original image
     if not contours:
         print(f"No contours found in image at {image_path}")
         return image
 
-    # Find the largest contour which will be the contour of the brain
     largest_contour = max(contours, key=cv2.contourArea)
-
-    # Get the bounding rectangle for the largest contour
     x, y, w, h = cv2.boundingRect(largest_contour)
-
-    # Crop the image using the dimensions of the bounding rectangle
     cropped_image = image[y:y+h, x:x+w]
-    
     return cropped_image
 
-def crop_images_in_folder(source_folder, output_folder):
-    # Iterate over all directories in the source folder
-    for subdir, dirs, files in os.walk(source_folder):
-        for file in files:
-            # Construct the path to the image file
-            image_path = os.path.join(subdir, file)
-            
-            # Check for image formats here (e.g., '.jpg')
-            if image_path.lower().endswith(('.png', '.jpg', '.jpeg')):
-                # Crop the brain contour from the image
-                cropped_image = crop_brain_contour(image_path)
+def crop_brain_contour2(image_path):
+    image = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)
+    if image is None:
+        print(f"Failed to read image: {image_path}")
+        return None
 
-                if cropped_image is not None:
-                    # Replicate the subdirectory structure in the output folder
-                    relative_path = os.path.relpath(subdir, source_folder)
-                    output_subdir = os.path.join(output_folder, relative_path)
-                    os.makedirs(output_subdir, exist_ok=True)
+    # Adjust the threshold value here. 
+    # Lower values will include more lighter areas.
+    threshold_value = 30  # Example value, adjust as needed based on your images
 
-                    # Construct the save path and save the cropped image
-                    save_path = os.path.join(output_subdir, file)
-                    cv2.imwrite(save_path, cropped_image)
+    _, thresh = cv2.threshold(image, threshold_value, 255, cv2.THRESH_BINARY)
+    contours, _ = cv2.findContours(thresh, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
+    if not contours:
+        print(f"No contours found in image at {image_path}")
+        return image
+
+    largest_contour = max(contours, key=cv2.contourArea)
+    x, y, w, h = cv2.boundingRect(largest_contour)
+    cropped_image = image[y:y+h, x:x+w]
+    return cropped_image
 
 
-crop_images_in_folder(INPUT_TRAIN_PATH, OUTPUT_TRAIN_PATH)
+# Replace with your actual paths
+INPUT_TRAIN_PATH = 'data/raw/Training'
+INPUT_TEST_PATH = 'data/raw/Testing'
+# OUTPUT_TRAIN_PATH = 'data/interim/Training'
+# OUTPUT_TEST_PATH = 'data/interim/Testing'
+
+for input_path in [INPUT_TRAIN_PATH, INPUT_TEST_PATH]:
+    for category in os.listdir(input_path):
+        if category == '.DS_Store':
+            continue
+        category_path = os.path.join(input_path, category)
+        ic(category_path)
+        # Iterate over each image in the category
+        for image_name in os.listdir(category_path):
+            image_path = os.path.join(category_path, image_name)
+            # ic(image_path)
+            image = cv2.imread(image_path)
+
+            # crop the image and save it
+            cropped_image = crop_brain_contour2(image_path)
+            if cropped_image is None:
+                continue
+            # save it to the output directory with the same subdirectory structure
+            output_path = os.path.join(input_path.replace('raw', 'interim'), category)
+            os.makedirs(output_path, exist_ok=True)
+            output_image_path = os.path.join(output_path, image_name)
+            cv2.imwrite(output_image_path, cropped_image)
+
