@@ -45,11 +45,32 @@ class Preprocessor:
                         output_image_path = os.path.join(output_subdir, file)
                         cv2.imwrite(output_image_path, processed_image)
 
+
+    def get_image_array(self, image_path):
+        """
+        Reads an image from the given path and returns it as an array.
+
+        Args:
+            image_path (str): Path to the image.
+
+        Returns:
+            numpy.ndarray: The image array.
+        """
+        image = cv2.imread(image_path)
+        if image is None:
+            print(f"Failed to read image: {image_path}")
+            return None
+        return image
+
 # Example usage
 # preprocessor = Preprocessor()
 # preprocessor.process_directory('path/to/input/directory', 'path/to/output/directory')
 if __name__ == '__main__':
     INPUT_PATH = 'data/raw'
     preprocessor = Preprocessor()
-    preprocessor.process_directory(INPUT_PATH, INPUT_PATH.replace('raw', 'interim/resized'))
+    # preprocessor.process_directory(INPUT_PATH, INPUT_PATH.replace('raw', 'interim/resized'))
+    array = preprocessor.get_image_array('data/interim/resized/Training/meningioma/Tr-me_0010.jpg')
+    print(array.shape)
+    print(array)
+    print(array.max(), array. min(), array.mean())
 
