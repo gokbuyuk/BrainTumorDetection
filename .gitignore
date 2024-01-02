@@ -16,3 +16,5 @@ venv.bak/
 data/*
 reports/*
 .DS_Store
+.vscode
+*.txt
