@@ -11,7 +11,7 @@ def find_smallest_dimensions(directory):
     smallest_height = float('inf')
 
     for subdir, _, files in os.walk(directory):
-        ic(subdir)
+        # ic(subdir)
         for filename in files:
             if filename.endswith(".jpg"):
                 image_path = os.path.join(subdir, filename)
