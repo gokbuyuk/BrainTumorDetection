@@ -10,7 +10,7 @@ from libs.preprocessor import Preprocessor
 from libs.utils import *
 
 
-# INPUT_PATH = 'data/raw' # Input path
+INPUT_PATH = 'data/raw' # Input path
 preprocessor = Preprocessor()
 preprocessor.process_directory(INPUT_PATH, INPUT_PATH.replace('raw', 'interim/resized'))
 
