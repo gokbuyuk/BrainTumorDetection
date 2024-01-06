@@ -12,7 +12,7 @@ from libs.utils import *
 
 # INPUT_PATH = 'data/raw' # Input path
 preprocessor = Preprocessor()
-# preprocessor.process_directory(INPUT_PATH, INPUT_PATH.replace('raw', 'interim/resized'))
+preprocessor.process_directory(INPUT_PATH, INPUT_PATH.replace('raw', 'interim/resized'))
 
 
 # Process each dataset and create DataFrames
