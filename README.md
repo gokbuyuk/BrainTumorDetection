@@ -33,27 +33,6 @@ We use MLflow for tracking experiments, managing the machine learning lifecycle,
 
 The preprocessing steps include resizing images, normalizing pixel values, and converting image data into NumPy arrays for efficient processing. Data augmentation techniques are also employed to improve the robustness and accuracy of the models.
 
-## Directory Structure
-The project is organized as follows:
-.
-├── data
-│   ├── interim
-│   ├── processed
-│   └── raw
-├── libs
-│   ├── __init__.py
-│   ├── preprocessor.py
-│   └── utils.py
-├── notebooks
-│   └── eda.ipynb
-├── reports
-│   └── visualizations
-└── src
-    ├── data
-    │   └── preprocessing.py
-    └── model
-        └── train_model.py
-
 ## Future Work
 
 Upon completion, the project will provide a comprehensive tool for automated brain tumor detection and classification. Further improvements may include integrating advanced neural network architectures and exploring additional data augmentation strategies.
