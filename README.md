@@ -37,23 +37,22 @@ The preprocessing steps include resizing images, normalizing pixel values, and c
 The project is organized as follows:
 .
 ├── data
-│   ├── interim
-│   ├── processed
-│   └── raw
+│   ├── interim
+│   ├── processed
+│   └── raw
 ├── libs
-│   ├── __init__.py
-│   ├── preprocessor.py
-│   └── utils.py
+│   ├── __init__.py
+│   ├── preprocessor.py
+│   └── utils.py
 ├── notebooks
-│   └── eda.ipynb
+│   └── eda.ipynb
 ├── reports
-│   └── visualizations
+│   └── visualizations
 └── src
     ├── data
-    │   └── preprocessing.py
+    │   └── preprocessing.py
     └── model
         └── train_model.py
-
 
 ## Future Work
 
