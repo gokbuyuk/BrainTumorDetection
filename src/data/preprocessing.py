@@ -9,6 +9,8 @@ import matplotlib.pyplot as plt
 from libs.preprocessor import Preprocessor
 from libs.utils import *
 
+import pandas as pd
+from sklearn.model_selection import train_test_split
 
 INPUT_PATH = 'data/raw' # Input path
 # Preprocess the training and testing data
@@ -27,7 +29,34 @@ df_preprocessed.to_csv('reports/image_sizes_labels_and_data_preprocessed.csv', i
 
 # Get the image array for each image and add it to the data frame with metadata
 df_preprocessed['Image_array'] = df_preprocessed['Path'].apply(lambda x: preprocessor.get_image_array(x))
+df_train = df_preprocessed[df_preprocessed['Data']=='train']
+df_train.to_csv('data/processed/train_data_preprocessed.csv', index=False)
+df_test= df_preprocessed[df_preprocessed['Data']=='test']
+df_test.to_csv('data/processed/test_data_preprocessed.csv', index=False)
 
-# Save the preprocessed training and testing data separately 
-df_preprocessed[df_preprocessed['Data']=='train'].to_csv('data/processed/train_data_preprocessed.csv', index=False)
-df_preprocessed[df_preprocessed['Data']=='test'].to_csv('data/processed/test_data_preprocessed.csv', index=False)
+
+
+df_train["Binary_label"] = np.where(df_train["Label"]=="notumor",0,1)
+X_train= df_train["Image_array"].to_numpy()
+y_train= df_train["Binary_label"].to_numpy()
+ic("Before split",y_train.mean().round(3))
+
+n_obs = X_train.shape[0]
+ic(n_obs)
+
+X_train = np.stack(X_train)
+
+#scaling our train data
+X_train = X_train/255
+
+X_train_train, X_val, y_train_train, y_val = train_test_split(X_train, y_train,
+                                                              test_size=.2,
+                                                              shuffle=True,
+                                                              stratify=y_train,
+                                                              random_state=440)
+ic(X_train_train.shape,X_val.shape,y_train_train.shape,y_val.shape)
+ic("After split", y_train_train.mean().round(3),y_val.mean().round(3))
+
+for data, data_label in zip([X_train_train, X_val, y_train_train, y_val], ['X_train_train', 'X_val', 'y_train_train', 'y_val']):
+    np.save(f"data/ml_ready/{data_label}.npy", data)
+
