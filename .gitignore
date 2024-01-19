@@ -13,8 +13,12 @@ ENV/
 env.bak/
 venv.bak/
 
+# other
 data/*
 reports/*
 .DS_Store
 .vscode
-*.txt
+mlruns/*
+mlflow/*
+mlflow_artifacts/*
+
