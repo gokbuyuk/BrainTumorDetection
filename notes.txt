@@ -1,0 +1,3 @@
+To get the directory tree, run the command below in terminal:
+
+tree -P "*.py|*.ipynb" -I "__pycache__|.vscode|env|.env|venv|.venv|Testing|Training|cropped|resized" > file_tree.txt
