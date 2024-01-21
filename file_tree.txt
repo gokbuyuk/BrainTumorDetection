@@ -1,0 +1,21 @@
+.
+├── data
+│   ├── interim
+│   ├── processed
+│   └── raw
+├── libs
+│   ├── __init__.py
+│   ├── preprocessor.py
+│   └── utils.py
+├── notebooks
+│   ├── brain-tumor-detection-keras-pytorch.ipynb
+│   └── eda.ipynb
+├── reports
+│   └── visualizations
+└── src
+    ├── data
+    │   └── preprocessing.py
+    └── model
+        └── train_model.py
+
+12 directories, 7 files

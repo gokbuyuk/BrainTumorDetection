@@ -13,6 +13,11 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 
 INPUT_PATH = 'data/raw' # Input path
+OUTPUT_PATH = 'data/ml_ready'
+# create output folder if it doesn't exist
+if not os.path.exists(OUTPUT_PATH):
+    os.makedirs(OUTPUT_PATH)
+
 # Preprocess the training and testing data
 preprocessor = Preprocessor()
 preprocessor.process_directory(INPUT_PATH, INPUT_PATH.replace('raw', 'interim/resized'))
@@ -56,6 +61,7 @@ X_train_train, X_val, y_train_train, y_val = train_test_split(X_train, y_train,
                                                               random_state=440)
 ic(X_train_train.shape,X_val.shape,y_train_train.shape,y_val.shape)
 ic("After split", y_train_train.mean().round(3),y_val.mean().round(3))
+
 
 for data, data_label in zip([X_train_train, X_val, y_train_train, y_val], ['X_train_train', 'X_val', 'y_train_train', 'y_val']):
     np.save(f"data/ml_ready/{data_label}.npy", data)
