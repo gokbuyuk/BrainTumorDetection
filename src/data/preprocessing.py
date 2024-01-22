@@ -14,9 +14,12 @@ from sklearn.model_selection import train_test_split
 
 INPUT_PATH = 'data/raw' # Input path
 OUTPUT_PATH = 'data/ml_ready'
+
 # create output folder if it doesn't exist
 if not os.path.exists(OUTPUT_PATH):
     os.makedirs(OUTPUT_PATH)
+if not os.path.exists('reports'):
+    os.makedirs('reports')
 
 # Preprocess the training and testing data
 preprocessor = Preprocessor()
