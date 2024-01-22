@@ -12,6 +12,7 @@ This project is currently a **Work in Progress**. It aims to leverage the power 
 ### Data
 
 The data for this project consists of brain MRI images. These images are preprocessed and labeled for training two different CNN models. The data is stored and handled in CSV files, which include image paths, labels, and image array data.
+Data source: https://www.kaggle.com/datasets/masoudnickparvar/brain-tumor-mri-dataset
 
 ### Convolutional Neural Networks (CNN)
 
