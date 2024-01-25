@@ -82,7 +82,7 @@ ic("After split", y_train_train.mean().round(3),y_val.mean().round(3), y_test.me
 for data, data_label in zip([X_train_train, X_val, y_train_train, y_val, X_test, y_test], 
                             ['X_train_train', 'X_val', 'y_train_train', 'y_val', 'X_test', 'y_test']):
     output_file_path = os.path.join(OUTPUT_PATH, output_subdir, f"{data_label}_{target_label}.npy")
-
+    np.save(output_file_path, data)
 
 ## for Multi classification
 target_label = 'multiclass'
