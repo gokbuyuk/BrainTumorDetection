@@ -9,9 +9,10 @@ import mlflow.keras
 from icecream import ic
 import os
 
+EXP_LABEL = 'binary' 
 # Load data
 for data_label in ['X_train_train', 'X_val', 'y_train_train', 'y_val']:
-    df = np.load(f"data/ml_ready/{data_label}.npy")
+    df = np.load(f"data/ml_ready/{EXP_LABEL}/{data_label}_{EXP_LABEL}.npy")
     ic(data_label, df.shape)
     globals()[data_label] = df
 
