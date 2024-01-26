@@ -9,9 +9,13 @@ import mlflow.keras
 from icecream import ic
 import os
 
+EXP_LABEL = 'multiclass';
+
+N_CLASS = 4;
+
 # Load data
 for data_label in ['X_train_train', 'X_val', 'y_train_train', 'y_val']:
-    df = np.load(f"data/ml_ready/{data_label}.npy")
+    df = np.load(f"data/ml_ready/{EXP_LABEL}/{data_label}_{EXP_LABEL}.npy")
     ic(data_label, df.shape)
     globals()[data_label] = df
 
@@ -24,22 +28,32 @@ model = models.Sequential([
     layers.Conv2D(64, (3, 3), activation='relu'),
     layers.Flatten(),
     layers.Dense(64, activation='relu'),
-    layers.Dense(1, activation='sigmoid')  # Single neuron for binary classification
+    layers.Dense(N_CLASS, activation='softmax')  # Single neuron for binary classification
 ])
 
-model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy', 'AUC'])
+# loss='categorical_crossentropy'
+# optimizer='adam'
+
+model.compile(optimizer='rmsprop',
+              loss='categorical_crossentropy',
+              metrics=['accuracy',
+                                                                          #'AUC']
+                                                                         ] )
 
 
 # Compute class weights
 class_weights = compute_class_weight('balanced', classes=np.unique(y_train_train), y=y_train_train)
 class_weights_dict = dict(enumerate(class_weights))
+ic(class_weights_dict)
 
 # MLflow tracking
 with mlflow.start_run():
     mlflow.keras.autolog()
 
     # Train the model with class weights
-    history = model.fit(X_train_train, y_train_train, epochs=5, validation_data=(X_val, y_val), class_weight=class_weights_dict)
+    history = model.fit(X_train_train, y_train_train, epochs=1, validation_data=(X_val, y_val),
+                        class_weight=class_weights_dict
+    )
 
     # Calculate ROC AUC for train and validation
     y_train_pred = model.predict(X_train_train).ravel()
