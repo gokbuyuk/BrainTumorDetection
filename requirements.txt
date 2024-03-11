@@ -8,4 +8,7 @@ seaborn
 scikit-image
 tensorflow
 mlflow
-
+giotto-tda
+icecream
+ipykernel
+nbformat
